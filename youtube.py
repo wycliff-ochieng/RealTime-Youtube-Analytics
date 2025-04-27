@@ -2,11 +2,15 @@ import  requests
 import yaml
 import json
 from pprint import pprint
+from kafka import KafkaProducer
 
 with open('config.yaml', 'r') as f:
     config = yaml.safe_load(f)
 
 if __name__=="__main__":
+
+    """producer = KafkaProducer(bootstrap_servers =['localhost:9092'])
+    
     api_key = config['youtube']['api_key']
     videos = requests.get('https://www.googleapis.com/youtube/v3/videos',
                       {
@@ -27,4 +31,16 @@ if __name__=="__main__":
             }
         
     print(pprint(vids_res))
+    producer.send('youtube_videos',json.dumps(vids_res).encode('utf-8'))
+    producer.flush()"""
+
+    api_key = config['youtube']['api_key']
+    playlist_id = config['youtube']['playlist_id']
+    videos = requests.get('https://www.googleapis.com/youtube/v3/playlistItems',
+                      {
+                          'key':api_key,
+                          'playlistId':playlist_id,
+                          'part':'snippet,contentDetails,status'
+                      })
+    print(videos.text)
 
