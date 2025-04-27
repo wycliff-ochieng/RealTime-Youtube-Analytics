@@ -5,4 +5,4 @@
 - Kafka
 - youtube API
 - Docker
-- Cassandra DB
+- Telegram
